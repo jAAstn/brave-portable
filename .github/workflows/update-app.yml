@@ -24,32 +24,19 @@ jobs:
   update:
     if: github.event_name != 'pull_request'
     runs-on: windows-latest
-    environment: update-app # secrets are gated by this environment
     timeout-minutes: 10
     permissions:
       contents: write
       pull-requests: write
     steps:
       -
-        name: GitHub auth token from GitHub App
-        id: write-app
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        with:
-          client-id: ${{ vars.PORTAPPS_BOT_CLIENT_ID }}
-          private-key: ${{ secrets.PORTAPPS_BOT_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: ${{ github.event.repository.name }}
-          permission-contents: write
-          permission-pull-requests: write
-      -
         name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          token: ${{ steps.write-app.outputs.token }}
           fetch-depth: 0
           persist-credentials: false
       -
-        name: Update Brave
+        name: Update Brave Nightly
         id: update
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
@@ -57,7 +44,7 @@ jobs:
             const fs = require('fs');
             const path = require('path');
 
-            const sourceUrl = 'https://updates.bravesoftware.com/sparkle/Brave-Browser/stable/appcast.xml';
+            const sourceUrl = 'https://updates.bravesoftware.com/sparkle/Brave-Browser/nightly/appcast.xml';
 
             function workspacePath(relativePath) {
               return path.join(process.env.GITHUB_WORKSPACE, relativePath);
@@ -133,7 +120,7 @@ jobs:
             async function fetchAppcast() {
               const response = await fetch(sourceUrl, {
                 headers: {
-                  'user-agent': 'portapps/brave-portable update-app'
+                  'user-agent': 'portapps/brave-nightly-portable update-app'
                 }
               });
               if (!response.ok) {
@@ -144,7 +131,7 @@ jobs:
 
             const latestAppcast = normalizeAppcast(await fetchAppcast());
             const latestVersion = latestVersionFromAppcast(latestAppcast);
-            core.info(`Resolved latest stable Brave version: ${latestVersion}`);
+            core.info(`Resolved latest Brave Nightly version: ${latestVersion}`);
 
             const propertiesPath = 'build.properties';
             const appcastPath = 'res/appcast.xml';
@@ -176,7 +163,7 @@ jobs:
               core.info(`${appcastPath} is already up to date`);
             }
 
-            core.setOutput('title', `Brave ${latestVersion}`);
+            core.setOutput('title', `Brave Nightly ${latestVersion}`);
             core.setOutput('version', latestVersion);
             core.setOutput('previous-version', currentVersion);
             core.setOutput('release', String(nextRelease));
@@ -187,15 +174,15 @@ jobs:
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           base: ${{ github.event.repository.default_branch }}
-          branch: update-brave
-          token: ${{ steps.write-app.outputs.token }}
+          branch: update-brave-nightly
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: ${{ steps.update.outputs.title }}
           title: ${{ steps.update.outputs.title }}
           signoff: true
           sign-commits: true
           delete-branch: true
           body: |
-            This updates Brave to ${{ steps.update.outputs.version }}.
+            This updates Brave Nightly to ${{ steps.update.outputs.version }}.
 
   diff:
     if: github.event_name == 'pull_request'
@@ -211,7 +198,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       -
-        name: Update Brave
+        name: Update Brave Nightly
         id: update
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:

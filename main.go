@@ -18,6 +18,9 @@ import (
 //go:embed res/Brave.lnk
 var defaultShortcut []byte
 
+// repositorySlug hosts the releases and the Sparkle appcast of this app
+const repositorySlug = "portapps/brave-nightly-portable"
+
 type config struct {
 	Cleanup bool `yaml:"cleanup" mapstructure:"cleanup"`
 }
@@ -36,7 +39,7 @@ func init() {
 	}
 
 	// Init app
-	if app, err = portapps.NewWithCfg("brave-portable", "Brave", cfg); err != nil {
+	if app, err = portapps.NewWithCfg("brave-nightly-portable", "Brave Nightly", cfg); err != nil {
 		log.Fatal().Err(err).Msg("Cannot initialize application. See log file for more info.")
 	}
 }
@@ -54,7 +57,7 @@ func main() {
 		"--disable-breakpad",
 		"--disable-machine-id",
 		"--disable-encryption-win",
-		"--update-feed-url=" + fmt.Sprintf("https://raw.githubusercontent.com/portapps/brave-portable/refs/tags/%s-%s/res/appcast.xml", app.Info.Version, app.Info.Release),
+		"--update-feed-url=" + fmt.Sprintf("https://raw.githubusercontent.com/%s/refs/tags/%s-%s/res/appcast.xml", repositorySlug, app.Info.Version, app.Info.Release),
 	}
 
 	// Cleanup on exit
@@ -68,7 +71,7 @@ func main() {
 	}
 
 	// Copy default shortcut
-	shortcutPath := filepath.Join(os.Getenv("APPDATA"), "Microsoft", "Windows", "Start Menu", "Programs", "Brave Portable.lnk")
+	shortcutPath := filepath.Join(os.Getenv("APPDATA"), "Microsoft", "Windows", "Start Menu", "Programs", "Brave Nightly Portable.lnk")
 	err := os.WriteFile(shortcutPath, defaultShortcut, 0644)
 	if err != nil {
 		log.Error().Err(err).Msg("Cannot write default shortcut")
@@ -79,7 +82,7 @@ func main() {
 		ShortcutPath:     shortcutPath,
 		TargetPath:       app.Process,
 		Arguments:        shortcut.Property{Clear: true},
-		Description:      shortcut.Property{Value: "Brave Portable by Portapps"},
+		Description:      shortcut.Property{Value: "Brave Nightly Portable by Portapps"},
 		IconLocation:     shortcut.Property{Value: app.Process},
 		WorkingDirectory: shortcut.Property{Value: app.AppPath},
 	})

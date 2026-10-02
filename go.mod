@@ -1,4 +1,4 @@
-module github.com/portapps/brave-portable
+module github.com/portapps/brave-nightly-portable
 
 go 1.26.0
 
