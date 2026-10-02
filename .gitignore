@@ -9,3 +9,7 @@
 /*.syso
 /*.exe
 /versioninfo.json
+
+# Local build toolchain
+/.tools
+/.portapps

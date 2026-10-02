@@ -15,11 +15,11 @@ import (
 	"github.com/portapps/portapps/v3/pkg/shortcut"
 )
 
-//go:embed res/Brave.lnk
+//go:embed res/BraveNightly.lnk
 var defaultShortcut []byte
 
 // repositorySlug hosts the releases and the Sparkle appcast of this app
-const repositorySlug = "portapps/brave-nightly-portable"
+const repositorySlug = "jAAstn/brave-portable"
 
 type config struct {
 	Cleanup bool `yaml:"cleanup" mapstructure:"cleanup"`

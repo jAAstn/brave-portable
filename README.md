@@ -1,8 +1,8 @@
-<p align="center"><a href="https://github.com/portapps/brave-nightly-portable/releases/latest" target="_blank"><img width="100" src="https://github.com/portapps/brave-nightly-portable/blob/master/res/papp.png"></a></p>
+<p align="center"><a href="https://github.com/jAAstn/brave-portable/releases/latest" target="_blank"><img width="100" src="https://github.com/jAAstn/brave-portable/blob/master/res/papp.png"></a></p>
 
 <p align="center">
-  <a href="https://github.com/portapps/brave-nightly-portable/actions?workflow=build"><img src="https://img.shields.io/github/actions/workflow/status/portapps/brave-nightly-portable/build.yml?label=build&logo=github&style=flat-square" alt="Build Status"></a>
-  <a href="https://github.com/portapps/brave-nightly-portable/releases"><img src="https://img.shields.io/github/v/release/portapps/brave-nightly-portable?label=release&logo=github&style=flat-square" alt="Latest release"></a>
+  <a href="https://github.com/jAAstn/brave-portable/actions?workflow=build"><img src="https://img.shields.io/github/actions/workflow/status/jAAstn/brave-portable/build.yml?label=build&logo=github&style=flat-square" alt="Build Status"></a>
+  <a href="https://github.com/jAAstn/brave-portable/releases"><img src="https://img.shields.io/github/v/release/jAAstn/brave-portable?label=release&logo=github&style=flat-square" alt="Latest release"></a>
 </p>
 
 ## Notice of Non-Affiliation and Disclaimer
